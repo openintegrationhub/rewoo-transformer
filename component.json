@@ -1,91 +1,91 @@
 {
-  "title": "Petstore API (Java)",
-  "description": "elastic.io component for the Petstore API",
-  "docsUrl": "https://github.com/elasticio/petstore-component-java",
+  "title": "REWOO Scope Transformer (Java)",
+  "description": "Open Integration Hub transformer for the REWOO Scope API",
+  "docsUrl": "https://www.rewoo.de",
   "credentials": {
     "fields": {
-      "apiKey": {
-        "label": "API key",
+      "username": {
+        "label": "Your username",
         "required": true,
-        "viewClass": "TextFieldWithNoteView",
-        "note": "Please use <b>elasticio</b> as API key. For more details see <a href='https://petstore.elastic.io/docs/' target='_blank'>Petstore API docs</a>."
+        "viewClass": "TextFieldView",
+        "note": "Use your admin username registered in <b>REWOO Scope</b>",
+        "placeholder": "johndoe"
+      },
+      "password": {
+        "label": "Your password",
+        "required": true,
+        "viewClass": "PasswordFieldView",
+        "note": "Use your password for <b>REWOO Scope</b>"
+      },
+      "scopeInstance": {
+        "label": "Your REWOO Scope instance to use",
+        "required": true,
+        "viewClass": "TextFieldView",
+        "note": "Specifiy the REWOO Scope instance used to talk to. Example for url: https://trial.rewoo.net/oih/"
       }
     },
-    "verifier": "io.elastic.petstore.ApiKeyVerifier"
+    "verifier": "com.rewoo.elastic.auth.ScopeCredentialsVerifier"
   },
   "triggers": {
-    "getPetsByStatus": {
-      "main": "io.elastic.petstore.triggers.GetPetsByStatus",
-      "type": "polling",
-      "title": "Get Pets By Status (HttpClient)",
-      "description": "Retrieves pets from the Petstore API by given pet status using Apache HttpClient",
-      "fields": {
-        "status": {
-          "label": "Pet Status",
-          "required": true,
-          "viewClass": "SelectView",
-          "model": {
-            "available": "Available",
-            "pending": "Pending",
-            "sold": "Sold"
-          },
-          "prompt": "Select Pet Status"
-        }
-      },
-      "metadata": {
-        "out": "./schemas/getPetsByStatus.out.json"
-      }
-    },
-    "getPetsByStatusJaxRs": {
-      "main": "io.elastic.petstore.triggers.GetPetsByStatusJaxRs",
-      "type": "polling",
-      "title": "Get Pets By Status (JAX-RS)",
-      "description": "Retrieves pets from the Petstore API by given pet status using Java API for RESTful Web Services (JAX-RS)",
-      "fields": {
-        "status": {
-          "label": "Pet Status",
-          "required": true,
-          "viewClass": "SelectView",
-          "model": {
-            "available": "Available",
-            "pending": "Pending",
-            "sold": "Sold"
-          },
-          "prompt": "Select Pet Status"
-        }
-      },
-      "metadata": {
-        "out": "./schemas/getPetsByStatus.out.json"
-      }
-    },
-    "getPetsByStatusWithDynamicSelectModel": {
-      "main": "io.elastic.petstore.triggers.GetPetsByStatus",
-      "type": "polling",
-      "title": "Get Pets By Status With Dynamic Select Model",
-      "description": "Retrieves pets from the Petstore API by given pet status. The available statuses are retrieved from the Petstore API dynamically.",
-      "fields": {
-        "status": {
-          "label": "Pet Status",
-          "required": true,
-          "viewClass": "SelectView",
-          "model": "io.elastic.petstore.providers.PetStatusModelProvider",
-          "prompt": "Select Pet Status"
-        }
-      },
-      "metadata": {
-        "out": "./schemas/getPetsByStatus.out.json"
-      }
-    }
   },
   "actions": {
-    "createPet": {
-      "main": "io.elastic.petstore.actions.CreatePet",
-      "title": "Create a Pet",
-      "description": "Creates a new Pet",
-      "metadata": {
-        "in": "./schemas/createPet.in.json",
-        "out": "./schemas/createPet.out.json"
-      }
+    "transformFromOih": {
+      "main": "com.rewoo.elastic.actions.TransformFromOih",
+      "title": "Transform from OIH",
+      "description": "Transforms the OIH model to the corresponding REWOO Scope model",
+      "fields": {
+        "fromOihModelIn": {
+          "viewClass": "SelectView",
+          "prompt": "Select an OIH-model",
+          "label": "OIH-Model",
+          "required": true,
+          "model": "com.rewoo.elastic.providers.OihModelProvider"
+        },
+        "fromOihModelOut": {
+          "viewClass": "SelectView",
+          "prompt": "Select a target node type",
+          "label": "Target node type",
+          "required": true,
+          "model": "com.rewoo.elastic.providers.NodeTypeProvider"
+        },
+        "fromOihScript": {
+          "viewClass": "SelectView",
+          "prompt": "Select a transform script",
+          "label": "From-OIH-Script",
+          "required": true,
+          "model": "com.rewoo.elastic.providers.FromTransformScriptProvider"
+        }
+      },
+      "dynamicMetadata": "com.rewoo.elastic.providers.FromOihModelInOutProvider"
+    },
+    "transformToOih": {
+      "main": "com.rewoo.elastic.actions.TransformToOih",
+      "title": "Transform to OIH",
+      "description": "Transforms the REWOO Scope model to the corresponding OIH model",
+      "fields": {
+        "toOIHModelIn": {
+          "viewClass": "SelectView",
+          "prompt": "Select a source node type",
+          "label": "Source node type",
+          "required": true,
+          "model": "com.rewoo.elastic.providers.NodeTypeProvider"
+        },
+        "toOIHModelOut": {
+          "viewClass": "SelectView",
+          "prompt": "Select a target OIH-model",
+          "label": "Target OIH-model",
+          "required": true,
+          "model": "com.rewoo.elastic.providers.OihModelProvider"
+        },
+        "toOIHScript": {
+          "viewClass": "SelectView",
+          "prompt": "Select a transform script",
+          "label": "From-OIH-Script",
+          "required": true,
+          "model": "com.rewoo.elastic.providers.ToTransformScriptProvider"
+        }
+      },
+      "dynamicMetadata": "com.rewoo.elastic.providers.ToOihModelInOutProvider"
     }
   }
 }
