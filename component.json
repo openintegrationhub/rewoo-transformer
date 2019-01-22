@@ -1,91 +1,47 @@
 {
-  "title": "REWOO Scope Transformer (Java)",
-  "description": "Open Integration Hub transformer for the REWOO Scope API",
-  "docsUrl": "https://www.rewoo.de",
-  "credentials": {
-    "fields": {
-      "username": {
-        "label": "Your username",
-        "required": true,
-        "viewClass": "TextFieldView",
-        "note": "Use your admin username registered in <b>REWOO Scope</b>",
-        "placeholder": "johndoe"
-      },
-      "password": {
-        "label": "Your password",
-        "required": true,
-        "viewClass": "PasswordFieldView",
-        "note": "Use your password for <b>REWOO Scope</b>"
-      },
-      "scopeInstance": {
-        "label": "Your REWOO Scope instance to use",
-        "required": true,
-        "viewClass": "TextFieldView",
-        "note": "Specifiy the REWOO Scope instance used to talk to. Example for url: https://trial.rewoo.net/oih/"
-      }
+    "title": "REWOO Scope Transformer (Java)",
+    "description": "Open Integration Hub transformer for the REWOO Scope API",
+    "docsUrl": "https://www.rewoo.de",
+    "credentials": {
+        "fields": {
+            "username": {
+                "label": "Your username",
+                "required": true,
+                "viewClass": "TextFieldView",
+                "note": "Use your ETL or ADMIN username registered in <b>REWOO Scope</b>",
+                "placeholder": "johndoe"
+            },
+            "password": {
+                "label": "Your password",
+                "required": true,
+                "viewClass": "PasswordFieldView",
+                "note": "Use your password for <b>REWOO Scope</b>"
+            },
+            "scopeInstance": {
+                "label": "Your REWOO Scope instance to use",
+                "required": true,
+                "viewClass": "TextFieldView",
+                "note": "Specifiy the REWOO Scope instance used to talk to. Example for url: https://trial.rewoo.net/oih/"
+            }
+        },
+        "verifier": "com.rewoo.elastic.auth.ScopeCredentialsVerifier"
     },
-    "verifier": "com.rewoo.elastic.auth.ScopeCredentialsVerifier"
-  },
-  "triggers": {
-  },
-  "actions": {
-    "transformFromOih": {
-      "main": "com.rewoo.elastic.actions.TransformFromOih",
-      "title": "Transform from OIH",
-      "description": "Transforms the OIH model to the corresponding REWOO Scope model",
-      "fields": {
-        "fromOihModelIn": {
-          "viewClass": "SelectView",
-          "prompt": "Select an OIH-model",
-          "label": "OIH-Model",
-          "required": true,
-          "model": "com.rewoo.elastic.providers.OihModelProvider"
-        },
-        "fromOihModelOut": {
-          "viewClass": "SelectView",
-          "prompt": "Select a target node type",
-          "label": "Target node type",
-          "required": true,
-          "model": "com.rewoo.elastic.providers.NodeTypeProvider"
-        },
-        "fromOihScript": {
-          "viewClass": "SelectView",
-          "prompt": "Select a transform script",
-          "label": "From-OIH-Script",
-          "required": true,
-          "model": "com.rewoo.elastic.providers.FromTransformScriptProvider"
-        }
-      },
-      "dynamicMetadata": "com.rewoo.elastic.providers.FromOihModelInOutProvider"
+    "triggers": {
     },
-    "transformToOih": {
-      "main": "com.rewoo.elastic.actions.TransformToOih",
-      "title": "Transform to OIH",
-      "description": "Transforms the REWOO Scope model to the corresponding OIH model",
-      "fields": {
-        "toOIHModelIn": {
-          "viewClass": "SelectView",
-          "prompt": "Select a source node type",
-          "label": "Source node type",
-          "required": true,
-          "model": "com.rewoo.elastic.providers.NodeTypeProvider"
+    "actions": {
+        "transformDocumentFromOih": {
+            "main": "com.rewoo.elastic.actions.TransformDocumentFromOih",
+            "title": "Transform document from OIH",
+            "description": "Transforms the OIH document to the corresponding REWOO Scope files",
+            "fields": {},
+            "metadata": {}
         },
-        "toOIHModelOut": {
-          "viewClass": "SelectView",
-          "prompt": "Select a target OIH-model",
-          "label": "Target OIH-model",
-          "required": true,
-          "model": "com.rewoo.elastic.providers.OihModelProvider"
-        },
-        "toOIHScript": {
-          "viewClass": "SelectView",
-          "prompt": "Select a transform script",
-          "label": "From-OIH-Script",
-          "required": true,
-          "model": "com.rewoo.elastic.providers.ToTransformScriptProvider"
+        "transformDocumentToOih": {
+            "main": "com.rewoo.elastic.actions.TransformDocumentToOih",
+            "title": "Transform to OIH",
+            "description": "Transforms the REWOO Scope files to the corresponding OIH document",
+            "fields": {},
+            "metadata": {}
         }
-      },
-      "dynamicMetadata": "com.rewoo.elastic.providers.ToOihModelInOutProvider"
     }
-  }
 }
