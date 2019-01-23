@@ -23,7 +23,6 @@ dependencies {
     compile "org.glassfish.jersey.core:jersey-client:2.25.1"
     compile "org.glassfish.jersey.media:jersey-media-json-processing:2.25.1"
     compile files('lib/scope-oih-lib-1.0.1.jar')
-    compile "org.codehaus.groovy:groovy:2.5.5"
 }
 
 uploadArchives {
