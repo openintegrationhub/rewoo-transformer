@@ -1,9 +1,7 @@
 {
     "title": "REWOO Scope Transformer (Java)",
     "description": "Open Integration Hub transformer for the REWOO Scope API",
-    "docsUrl": "https://www.rewoo.de",
-    "triggers": {
-    },
+    "docsUrl": "https://rewoo.de",
     "actions": {
         "transformDocumentFromOih": {
             "main": "com.rewoo.elastic.actions.TransformDocumentFromOih",
