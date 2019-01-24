@@ -51,7 +51,7 @@ public final class JsonHelper {
         if (type == JsonValue.ValueType.NULL) {
             return null;
         }
-        String authorIdAsString = ((JsonObject) modificationValue).getString("authorId");
+        String authorIdAsString = ((JsonObject) modificationValue).getString("userId");
         return Long.parseLong(authorIdAsString);
     }
 }
