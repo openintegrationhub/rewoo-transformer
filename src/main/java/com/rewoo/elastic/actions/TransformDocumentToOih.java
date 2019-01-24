@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.json.*;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import static com.rewoo.elastic.util.JsonHelper.STANDARD_FORMATTER;
@@ -52,7 +51,7 @@ public class TransformDocumentToOih implements Module {
         versionBuilder.add("isLatestVersion", true);
         versionBuilder.add("isMajorVersion", true);
         versionBuilder.add("size", file.getJsonNumber("size"));
-        versionBuilder.add("mimeType", file.getJsonNumber("mimeType"));
+        versionBuilder.add("mimeType", file.getString("mimeType"));
         versionBuilder.add("url", file.getString("url"));
         versionBuilder.add("uid", attachmentUid);
         versionBuilder.add("type", file.getString("type"));
