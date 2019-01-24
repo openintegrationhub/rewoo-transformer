@@ -29,7 +29,7 @@ public class TransformDocumentToOih implements Module {
         builder.add("name", file.getString("name"));
         builder.add("description", "");
         builder.add("baseType", file.getString("type"));
-        builder.add("parentUid", file.getString("element-" + file.getJsonNumber("elementId").longValue()));
+        builder.add("parentUid", "element-" + file.getJsonNumber("elementId").longValue());
         builder.add("path", file.getString("elementName"));
         builder.add("metadata", Json.createObjectBuilder().add("entryId", file.getJsonNumber("entryId").longValue())
                                                                 .add("elementId", file.getJsonNumber("elementId").longValue()));
