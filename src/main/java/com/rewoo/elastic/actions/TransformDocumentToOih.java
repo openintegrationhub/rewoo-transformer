@@ -1,3 +1,19 @@
+/*
+ *     Copyright 2019 REWOO Technologies AG
+ *
+ *     Licensed under the Apache License, Version 2.0 (the "License");
+ *     you may not use this file except in compliance with the License.
+ *     You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *     Unless required by applicable law or agreed to in writing, software
+ *     distributed under the License is distributed on an "AS IS" BASIS,
+ *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *     See the License for the specific language governing permissions and
+ *     limitations under the License.
+ */
+
 package com.rewoo.elastic.actions;
 
 import com.rewoo.elastic.util.JsonHelper;
@@ -18,12 +34,12 @@ public class TransformDocumentToOih implements Module {
 
     @Override
     public void execute(ExecutionParameters parameters) {
-        JsonObject file = parameters.getMessage().getBody();
+        final JsonObject file = parameters.getMessage().getBody();
         logger.info("Try to transform file to OIH format");
-        JsonObjectBuilder builder = Json.createObjectBuilder();
+        final JsonObjectBuilder builder = Json.createObjectBuilder();
         long attachmentId = file.getJsonNumber("id").longValue();
         logger.info("File has been identified as attachment with id " + attachmentId);
-        String attachmentUid = "attachment-" + attachmentId;
+        final String attachmentUid = "attachment-" + attachmentId;
         addOihProperties(builder, attachmentUid);
         builder.add("name", file.getString("name"));
         builder.add("description", "");
@@ -42,7 +58,7 @@ public class TransformDocumentToOih implements Module {
     }
 
     private static void addFileVersion(JsonObjectBuilder fileBuilder, JsonObject file, String attachmentUid) {
-        JsonObjectBuilder versionBuilder = Json.createObjectBuilder();
+        final JsonObjectBuilder versionBuilder = Json.createObjectBuilder();
         versionBuilder.add("label", "");
         versionBuilder.add("comment", "");
         versionBuilder.add("creation", JsonHelper.createModificationObject(file.getJsonNumber("authorId").longValue(),
@@ -60,7 +76,7 @@ public class TransformDocumentToOih implements Module {
     }
 
     private static void addOihProperties(JsonObjectBuilder fileBuilder, String attachmentUid) {
-        JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+        final JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
         fileBuilder.add("oihUid", "");
         fileBuilder.addNull("oihCreated");
         fileBuilder.addNull("oihLastModified");

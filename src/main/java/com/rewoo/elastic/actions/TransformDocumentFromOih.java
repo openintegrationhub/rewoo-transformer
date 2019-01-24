@@ -1,3 +1,19 @@
+/*
+ *     Copyright 2019 REWOO Technologies AG
+ *
+ *     Licensed under the Apache License, Version 2.0 (the "License");
+ *     you may not use this file except in compliance with the License.
+ *     You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *     Unless required by applicable law or agreed to in writing, software
+ *     distributed under the License is distributed on an "AS IS" BASIS,
+ *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *     See the License for the specific language governing permissions and
+ *     limitations under the License.
+ */
+
 package com.rewoo.elastic.actions;
 
 import com.rewoo.elastic.util.JsonHelper;
@@ -21,10 +37,10 @@ public class TransformDocumentFromOih implements Module {
 
     @Override
     public void execute(ExecutionParameters parameters) {
-        JsonObject file = parameters.getMessage().getBody();
+        final JsonObject file = parameters.getMessage().getBody();
         logger.info("Try to transform file to REWOO scope format");
-        JsonObjectBuilder builder = Json.createObjectBuilder();
-        JsonObject fileVersion = file.getJsonObject("currentVersion");
+        final JsonObjectBuilder builder = Json.createObjectBuilder();
+        final JsonObject fileVersion = file.getJsonObject("currentVersion");
         builder.add("elementName", file.getString("path"));
         builder.add("url", fileVersion.getString("url"));
         builder.add("type", fileVersion.getString("type"));
@@ -36,7 +52,7 @@ public class TransformDocumentFromOih implements Module {
         builder.add("extension", fileVersion.getString("extension"));
         builder.add("entryId", file.getJsonObject("metadata").getJsonNumber("entryId").longValue());
         builder.add("elementId", file.getJsonObject("metadata").getJsonNumber("elementId").longValue());
-        Date creationTimestamp = JsonHelper.getModificationTimestamp(fileVersion.get("creation"), STANDARD_FORMATTER);
+        final Date creationTimestamp = JsonHelper.getModificationTimestamp(fileVersion.get("creation"), STANDARD_FORMATTER);
         if (creationTimestamp == null) {
             builder.addNull("creationTimestamp");
         } else {
@@ -48,7 +64,7 @@ public class TransformDocumentFromOih implements Module {
         } else {
             builder.add("authorId", authorId);
         }
-        JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+        final JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
         arrayBuilder.add(builder);
         logger.info("Transformed file into REWOO scope format");
         logger.info("Trying to emit file in REWOO scope format to the platform");
@@ -59,12 +75,12 @@ public class TransformDocumentFromOih implements Module {
     }
 
     private static long extractAttachmentId(JsonObject oihDocumentVersion) {
-        String uidString = oihDocumentVersion.getString("uid");
+        final String uidString = oihDocumentVersion.getString("uid");
         return Long.valueOf(uidString.split("-")[1]);
     }
 
     private static String extractHash(JsonObject oihDocumentVersion) {
-        String[] urlParts = oihDocumentVersion.getString("url").split("/");
+        final String[] urlParts = oihDocumentVersion.getString("url").split("/");
         return urlParts[urlParts.length - 1];
     }
 }

@@ -2,30 +2,6 @@
     "title": "REWOO Scope Transformer (Java)",
     "description": "Open Integration Hub transformer for the REWOO Scope API",
     "docsUrl": "https://www.rewoo.de",
-    "credentials": {
-        "fields": {
-            "username": {
-                "label": "Your username",
-                "required": true,
-                "viewClass": "TextFieldView",
-                "note": "Use your ETL or ADMIN username registered in <b>REWOO Scope</b>",
-                "placeholder": "johndoe"
-            },
-            "password": {
-                "label": "Your password",
-                "required": true,
-                "viewClass": "PasswordFieldView",
-                "note": "Use your password for <b>REWOO Scope</b>"
-            },
-            "scopeInstance": {
-                "label": "Your REWOO Scope instance to use",
-                "required": true,
-                "viewClass": "TextFieldView",
-                "note": "Specifiy the REWOO Scope instance used to talk to. Example for url: https://trial.rewoo.net/oih/"
-            }
-        },
-        "verifier": "com.rewoo.elastic.auth.ScopeCredentialsVerifier"
-    },
     "triggers": {
     },
     "actions": {
