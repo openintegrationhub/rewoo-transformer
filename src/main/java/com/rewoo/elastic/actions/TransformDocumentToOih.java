@@ -78,8 +78,8 @@ public class TransformDocumentToOih implements Module {
     private static void addOihProperties(JsonObjectBuilder fileBuilder, String attachmentUid) {
         final JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
         fileBuilder.add("oihUid", "");
-        fileBuilder.addNull("oihCreated");
-        fileBuilder.addNull("oihLastModified");
+//        fileBuilder.addNull("oihCreated");
+//        fileBuilder.addNull("oihLastModified");
         fileBuilder.add("oihApplicationRecords", arrayBuilder.add(
                                  Json.createObjectBuilder().add("applicationUid", "")
                                                            .add("recordUid", attachmentUid)));
