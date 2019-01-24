@@ -1,5 +1,6 @@
 package com.rewoo.elastic.actions;
 
+import com.rewoo.elastic.util.JsonHelper;
 import io.elastic.api.EventEmitter;
 import io.elastic.api.ExecutionParameters;
 import io.elastic.api.Message;
@@ -8,6 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.json.*;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
+import static com.rewoo.elastic.util.JsonHelper.STANDARD_FORMATTER;
 
 public class TransformDocumentToOih implements Module {
     private static final Logger logger = LoggerFactory.getLogger(TransformDocumentToOih.class);
@@ -41,7 +46,9 @@ public class TransformDocumentToOih implements Module {
         JsonObjectBuilder versionBuilder = Json.createObjectBuilder();
         versionBuilder.add("label", "");
         versionBuilder.add("comment", "");
-        versionBuilder.add("creation", "");
+        versionBuilder.add("creation", JsonHelper.createModificationObject(file.getJsonNumber("authorId").longValue(),
+                                                                                 new Date(file.getJsonNumber("creationTimestamp").longValue()),
+                                                                                STANDARD_FORMATTER));
         versionBuilder.add("isLatestVersion", true);
         versionBuilder.add("isMajorVersion", true);
         versionBuilder.add("size", file.getJsonNumber("size"));
@@ -56,8 +63,8 @@ public class TransformDocumentToOih implements Module {
     private static void addOihProperties(JsonObjectBuilder fileBuilder, String attachmentUid) {
         JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
         fileBuilder.add("oihUid", "");
-        fileBuilder.add("oihCreated",  0);
-        fileBuilder.add("oihLastModified", 0);
+        fileBuilder.addNull("oihCreated");
+        fileBuilder.addNull("oihLastModified");
         fileBuilder.add("oihApplicationRecords", arrayBuilder.add(
                                  Json.createObjectBuilder().add("applicationUid", "")
                                                            .add("recordUid", attachmentUid)));
