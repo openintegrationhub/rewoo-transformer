@@ -29,7 +29,7 @@ public class TransformDocumentFromOih implements Module {
         builder.add("url", fileVersion.getString("url"));
         builder.add("type", fileVersion.getString("type"));
         builder.add("size", fileVersion.getJsonNumber("size").longValue());
-        builder.add("name", fileVersion.getString("name"));
+        builder.add("name", file.getString("name"));
         builder.add("mimeType", fileVersion.getString("mimeType"));
         builder.add("id", extractAttachmentId(fileVersion));
         builder.add("hash", extractHash(fileVersion));
