@@ -19,7 +19,6 @@ package com.rewoo.elastic.util;
 import org.junit.Test;
 
 import javax.json.JsonObject;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import static junit.framework.TestCase.assertEquals;
