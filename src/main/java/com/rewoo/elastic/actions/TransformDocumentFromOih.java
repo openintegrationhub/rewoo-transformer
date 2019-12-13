@@ -24,10 +24,7 @@ import io.elastic.api.Module;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
+import javax.json.*;
 import java.util.Date;
 
 import static com.rewoo.elastic.util.JsonHelper.STANDARD_FORMATTER;
@@ -53,19 +50,31 @@ public class TransformDocumentFromOih implements Module {
         builder.add("id", extractAttachmentId(fileVersion));
         builder.add("hash", extractHash(fileVersion));
         builder.add("extension", fileVersion.getString("extension"));
-        builder.add("entryId", file.getJsonObject("metadata").getJsonNumber("entryId").longValue());
-        builder.add("elementId", file.getJsonObject("metadata").getJsonNumber("elementId").longValue());
-        final Date creationTimestamp = JsonHelper.getModificationTimestamp(fileVersion.get("creation"), STANDARD_FORMATTER);
-        if (creationTimestamp == null) {
-            builder.addNull("creationTimestamp");
+        if (file.containsKey("metadata")) {
+            JsonObject metadata = file.getJsonObject("metadata");
+            builder.add("entryId", metadata.containsKey("entryId") ? metadata.getJsonNumber("entryId").longValue() : -1);
+            builder.add("elementId", metadata.containsKey("elementId") ? metadata.getJsonNumber("elementId").longValue() : -1);
         } else {
-            builder.add("creationTimestamp", creationTimestamp.toInstant().toEpochMilli());
+            builder.add("entryId", -1);
+            builder.add("elementId", -1);
         }
-        Long authorId = JsonHelper.getAuthorId(fileVersion.get("creation"));
-        if (authorId == null) {
-            builder.addNull("authorId");
+        if (fileVersion.containsKey("creation")) {
+            JsonValue creation = fileVersion.get("creation");
+            final Date creationTimestamp = JsonHelper.getModificationTimestamp(creation, STANDARD_FORMATTER);
+            if (creationTimestamp == null) {
+                builder.addNull("creationTimestamp");
+            } else {
+                builder.add("creationTimestamp", creationTimestamp.toInstant().toEpochMilli());
+            }
+            Long authorId = JsonHelper.getAuthorId(creation);
+            if (authorId == null) {
+                builder.addNull("authorId");
+            } else {
+                builder.add("authorId", authorId);
+            }
         } else {
-            builder.add("authorId", authorId);
+            builder.addNull("creationTimestamp");
+            builder.addNull("authorId");
         }
         final JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
         arrayBuilder.add(builder);
