@@ -37,9 +37,12 @@ public class TransformDocumentFromOih implements Module {
 
     @Override
     public void execute(ExecutionParameters parameters) {
-        final JsonObject file = parameters.getMessage().getBody();
+        JsonObject file = parameters.getMessage().getBody();
         logger.info("Try to transform file to REWOO scope format");
         final JsonObjectBuilder builder = Json.createObjectBuilder();
+        if (file.containsKey("data")) {
+            file = file.getJsonObject("data");
+        }
         final JsonObject fileVersion = file.getJsonObject("currentVersion");
         builder.add("elementName", file.getString("path"));
         builder.add("url", fileVersion.getString("url"));
