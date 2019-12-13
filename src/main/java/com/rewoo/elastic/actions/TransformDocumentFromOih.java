@@ -79,7 +79,7 @@ public class TransformDocumentFromOih implements Module {
 
     private static long extractAttachmentId(JsonObject oihDocumentVersion) {
         final String uidString = oihDocumentVersion.getString("uid");
-        return Long.valueOf(uidString.split("-")[1]);
+        return uidString.hashCode();
     }
 
     private static String extractHash(JsonObject oihDocumentVersion) {
