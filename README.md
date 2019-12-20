@@ -22,4 +22,8 @@ This action (TransformDocumentToOih.java) transforms the Scope JSON object descr
 
 ### Transform from OIH
 
-This action (TransformDocumentFromOih.java) transforms an OIH file object to a valid Scope JSON object. No further configuration is needed.  
+This action (TransformDocumentFromOih.java) transforms an OIH file object to a valid Scope JSON object. No further configuration is needed.
+
+## License
+
+Apache-2.0 © [REWOO Software GmbH](https://rewoo.de)  
